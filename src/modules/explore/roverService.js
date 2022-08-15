@@ -1,9 +1,12 @@
 const { ROVER_POSISITION_INDEX, ORIENTATION } = require('./constants');
 const orientationValidatorService = require('./orientationValidatorService');
 
-const validateLine = line => {
+const isValidLine = line => {
   if (line === undefined) {
     throw new Error('Initial rover position cannot be empty');
+  }
+  if (line.trim() === '') {
+    return false;
   }
   const pos = line.trim().split(' ');
   if (pos.length !== 3) {
@@ -19,16 +22,18 @@ const validateLine = line => {
     throw new Error('The Y position of Rover must be greater than 0');
   }
   orientationValidatorService.validate(ort);
+  return true;
 };
 
 module.exports.newRover = (initPosLine) => {
-  validateLine(initPosLine);
-  const lineArr = initPosLine.split(' ');
-  return {
-    x: parseInt(lineArr[ROVER_POSISITION_INDEX.x]),
-    y: parseInt(lineArr[ROVER_POSISITION_INDEX.y]),
-    orientation: lineArr[ROVER_POSISITION_INDEX.orientation]
-  };
+  if (isValidLine(initPosLine)) {
+    const lineArr = initPosLine.split(' ');
+    return {
+      x: parseInt(lineArr[ROVER_POSISITION_INDEX.x]),
+      y: parseInt(lineArr[ROVER_POSISITION_INDEX.y]),
+      orientation: lineArr[ROVER_POSISITION_INDEX.orientation]
+    };
+  }
 };
 
 module.exports.walk = (position) => {

@@ -22,6 +22,14 @@ describe('roverService', () => {
       expect(result).toEqual(expected);
     });
 
+    it('should ignore an empty Rover initial line', () => {
+      const initLine = '   ';
+
+      const result = roverService.newRover(initLine);
+
+      expect(result).toBeUndefined();
+    });
+
     it('should throw a \'Initial rover position cannot be empty\' error', () => {
       const result = () => roverService.newRover();
 

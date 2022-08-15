@@ -2,11 +2,10 @@ const roverService = require('./roverService');
 const exploreService = require('./exploreService');
 const plateauService = require('./plateauService');
 
-const buildErrorResponse = error => {
-  console.log(error);
-  return {
-    message: error.message
-  };
+const parseResult = ({ finalRovers }) => {
+  return finalRovers
+    .map(rover => `${rover.x} ${rover.y} ${rover.orientation}${(rover.message) ? ` ${rover.message}` : ''}`)
+    .join('\n');
 };
 
 exports.explore = (req, res) => {
@@ -21,11 +20,13 @@ exports.explore = (req, res) => {
     const rovers = [];
     for (let roverIndex = 1; roverIndex < lines.length; roverIndex += 2) {
       const position = roverService.newRover(lines[roverIndex]);
-      const movements = [...lines[(roverIndex + 1)]];
-      rovers.push({
-        position,
-        movements,
-      });
+      if (position) {
+        const movements = [...lines[(roverIndex + 1)]];
+        rovers.push({
+          position,
+          movements,
+        });
+      }
     }
 
     const finalRovers = exploreService.explore({
@@ -33,11 +34,11 @@ exports.explore = (req, res) => {
       rovers,
     });
 
-    result = { finalRovers };
+    result = parseResult({ finalRovers });
   } catch (error) {
     console.log(`ERROR ${error}`);
-    result = buildErrorResponse(error);
+    result = error.message;
   }
 
-  res.json(result);
+  res.send(result);
 };

@@ -25,19 +25,24 @@ module.exports.explore = (explore) => {
   const finalRoversPositions = [];
 
   const validateRoverPositionInsidePlateau = (roverPosition) => {
-    if (roverPosition.x > plateau.length || roverPosition.y > plateau.width ||
+    if (roverPosition.x >= plateau.length || roverPosition.y >= plateau.width ||
       roverPosition.x < 0 || roverPosition.y < 0) {
-      throw new Error(`The Rover position is outside of the Plateau. Rover position: ${JSON.stringify(roverPosition)} Plateau: ${JSON.stringify(plateau)}`);
+      const { x: roverX, y: roverY } = roverPosition;
+      const { length, width } = plateau;
+      throw new Error(`The Rover position is outside of the Plateau. Rover position: X: ${roverX} Y: ${roverY} Plateau: Length: ${length} Width: ${width}`);
     }
   };
 
-  const isThereAreAnotherRoverOnTheWay = (roverPosition, rover) => {
+  const validateIfIsThereAreAnotherRoverOnTheWay = (roverPosition, rover) => {
     const filtered = rovers
       .filter(({ index:anotherIndex, position:anotherPosition }) =>
         anotherIndex !== rover.index &&
         anotherPosition.x === roverPosition.x &&
         anotherPosition.y === roverPosition.y);
-    return filtered && filtered.length !== 0;
+    if (filtered && filtered.length !== 0) {
+      const { x, y } = roverPosition;
+      throw new Error(`There is another rover on the way: X: ${x} Y: ${y}`);
+    }
   };
 
   const isToRotate = movement => {
@@ -65,11 +70,9 @@ module.exports.explore = (explore) => {
   const tryToMove = (rover, movement) => {
     const { position:actualRoverPosition } = rover;
     validateRoverPositionInsidePlateau(actualRoverPosition);
-    isThereAreAnotherRoverOnTheWay(actualRoverPosition, rover);
+    validateIfIsThereAreAnotherRoverOnTheWay(actualRoverPosition, rover);
     const newPosition = move(actualRoverPosition, movement);
-    if (isThereAreAnotherRoverOnTheWay(newPosition, rover)) {
-      throw new Error(`There is another rover on the way: ${JSON.stringify(newPosition)}`);
-    }
+    validateIfIsThereAreAnotherRoverOnTheWay(newPosition, rover);
     return newPosition;
   };
 
@@ -84,6 +87,10 @@ module.exports.explore = (explore) => {
       });
     } catch (error) {
       console.log(error);
+      rover.position = {
+        ...rover.position,
+        message: error.message,
+      };
     }
 
     const { position:roverFinalposition } = rover;
