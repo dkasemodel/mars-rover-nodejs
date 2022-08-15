@@ -25,8 +25,12 @@ And the last line of the Rover are the instructions to move the Rover. Possibles
 0 0 N
 RMMMMLMMM
 ```
+
 In this example, the plateau has 5x4 size, the initial position of the Rover are `X:0`, `Y:0` and faced `North`.
 The last position of the Rover will be `4 3 N`, the `TOP` `Right` corner of the Plateau.
+
+> **Important**
+> The bottom left corner of the Plateau are `X:0` and `Y:0`
 
 ### Response
 
