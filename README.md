@@ -58,7 +58,7 @@ To run the unit tests of the project, it uses jest.
 $ yarn test --coverage
 ```
 
-Using `--coverage` is possible to see the coverage inside the project.
+Using `--coverage` is possible to see the coverage of the project.
 
 ### Calling with cURL
 
