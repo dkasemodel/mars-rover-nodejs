@@ -28,13 +28,3 @@ module.exports.MOVEMENTS = {
   Left: 'L',
   Walk: 'M'
 };
-
-/*
-module.exports.Rover = {
-  position: {
-    x: 0,
-    y: 0
-  },
-  orientation: this.ORIENTATION.N
-};
-*/

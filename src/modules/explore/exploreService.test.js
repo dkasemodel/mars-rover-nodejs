@@ -1,6 +1,5 @@
 const exploreService = require('./exploreService');
 const { ORIENTATION } = require('./constants');
-const e = require('express');
 
 const getExplore = ({ plateauX = 1, plateauY = 2, numRovers = 1, movements = ['M', 'M', 'M'] }) => ({
   plateau: {

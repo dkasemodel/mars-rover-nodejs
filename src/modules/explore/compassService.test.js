@@ -1,6 +1,5 @@
 const { ORIENTATION, MOVEMENTS } = require('./constants');
 const compassService = require('./compassService');
-const { move } = require('.');
 
 describe('compass', () => {
   it('should return North when received West and movement is Right', () => {

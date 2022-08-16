@@ -1,6 +1,5 @@
 const { mockRequest, mockResponse } = require('./util/interceptor');
 const controller = require('./controller');
-const { ORIENTATION } = require('./constants');
 
 const nasa = '10 5\n0 0 N\nMMRMML';
 const nasaWithError = '1 N\n1 2 N\nRM';
