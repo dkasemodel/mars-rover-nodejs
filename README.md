@@ -52,7 +52,7 @@ $ yarn install
 $ yarn dev
 ```
 
-To run the unit tests of the project, we usin jest.
+To run the unit tests of the project, it uses jest.
 
 ```shell
 $ yarn test --coverage
